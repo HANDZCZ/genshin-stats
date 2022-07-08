@@ -1,132 +1,270 @@
-<style>
-    body {
-        background-color: rgb(20, 20, 20);
-        width: 900px;
-        margin: auto;
-    }
-    * {
-        color: white;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>My Genshin Stats</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.14.3/css/uikit.min.css"
+        integrity="sha512-iWrYv6nUp7gzf+Ut/gMjxZn+SWdaiJYn+ZZNq63t2JO6kBpDc40wQfBzC1eOAzlwIMvRyuS974D1R8p1BTdaUw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #545454;
+        }
 
-<table>
-    <tr><td>Nickname</td><td>${record_card.nickname}</td></tr>
-    <tr><td>Adventure rank</td><td>${record_card.level}</td></tr>
-    <tr><td>Total rewards claimed</td><td>${daily_reward_info.claimed_rewards}</td></tr>
-    <tr><td>Last reward</td>
-        <td>
-            <img src="${last_claimed_reward.icon}" width="120px">
-            <br>
-            ${last_claimed_reward.amount} x ${last_claimed_reward.name}
-        </td>
-    </tr>
-    <tr><td>Last checked</td><td>${check_time}</td></tr>
-</table>
+        .uk-navbar-container.uk-light:not(.uk-navbar-transparent):not(.uk-navbar-primary) {
+            background: #222;
+        }
 
-<h2>Stats</h2>
+        .uk-dropdown.uk-light {
+            background: #222;
+        }
 
-<table>
-    <tr><td>Achievements</td><td>${user.stats.achievements}</td></tr>
-    <tr><td>Active days</td><td>${user.stats.days_active}</td></tr>
-    <tr><td>Characters</td><td>${user.stats.characters}</td></tr>
-    <tr><td>Spiral abyss</td><td>${user.stats.spiral_abyss}</td></tr>
-    <tr><td>Anemoculi</td><td>${user.stats.anemoculi}</td></tr>
-    <tr><td>Geoculi</td><td>${user.stats.geoculi}</td></tr>
-    <tr><td>Electroculi</td><td>${user.stats.electroculi}</td></tr>
-    <tr><td>Common chests</td><td>${user.stats.common_chests}</td></tr>
-    <tr><td>Exquisite chests</td><td>${user.stats.exquisite_chests}</td></tr>
-    <tr><td>Precious chests</td><td>${user.stats.precious_chests}</td></tr>
-    <tr><td>Luxurious chests</td><td>${user.stats.luxurious_chests}</td></tr>
-    <tr><td>Unlocked waypoints</td><td>${user.stats.unlocked_waypoints}</td></tr>
-    <tr><td>Unlocked domains</td><td>${user.stats.unlocked_domains}</td></tr>
-</table>
+        .uk-dropdown li {
+            padding-left: 5px;
+            border-left: 2px solid transparent;
+        }
 
-<h2>Spiral Abyss</h2>
+        .uk-dropdown li.uk-active {
+            border-color: #545454;
+        }
 
-<%def name="get_character_and_stat(arr, end='')">\
-%if len(arr) != 0:
-${arr[0].name} -> ${arr[0].value}${end}\
-%else:
-no data 😥\
-%endif
-</%def>
-<table>
-    <tr><td>Total battles</td><td>${user.abyss.current.total_battles}</td></tr>
-    <tr><td>Total wins</td><td>${user.abyss.current.total_wins}</td></tr>
-    <tr><td>Max floor</td><td>${user.abyss.current.max_floor}</td></tr>
-    <tr><td>Total stars</td><td>${user.abyss.current.total_stars}</td></tr>
-    <tr><td>Strongest hit</td><td>${get_character_and_stat(user.abyss.current.ranks.strongest_strike, " DMG")}</td></tr>
-    <tr><td>Most kills</td><td>${get_character_and_stat(user.abyss.current.ranks.most_kills)}</td></tr>
-    <tr><td>Most damage taken</td><td>${get_character_and_stat(user.abyss.current.ranks.most_damage_taken, " DMG")}</td></tr>
-    <tr><td>Most skills used</td><td>${get_character_and_stat(user.abyss.current.ranks.most_skills_used)}</td></tr>
-    <tr><td>Most bursts used</td><td>${get_character_and_stat(user.abyss.current.ranks.most_bursts_used)}</td></tr>
-</table>
+        #mobile-navbar li {
+            padding-left: 5px;
+            border-left: 2px solid transparent;
+        }
 
-<h2>Exploration</h2>
+        #mobile-navbar li.uk-active {
+            border-color: #545454;
+        }
 
-<table>
-    <tr>
-    %for location in user.explorations:
-        <th>${location.name}</th>
-    %endfor
-    </tr>
-    <tr>
-    %for location in user.explorations:
-        <td><p align="center"><img src="${location.icon}" width="180"></p></td>
-    %endfor
-    </tr>
-    <tr>
-    %for location in user.explorations:
-        <td>
-            <table>
-                <tr>
-                    <td>Explored</td>
-                    <td>${location.explored}%</td>
-                </tr>
-                <tr>
-                    <td>${location.type} level</td>
-                    <td>${location.level}</td>
-                </tr>
-            </table>
-        </td>
-    %endfor
-    </tr>
-</table>
+        .uk-navbar a {
+            text-decoration: none
+        }
 
-<h2>Characters</h2>
+        .uk-form-danger {
+            color: #f0506e !important;
+            border-color: #f0506e !important;
+        }
 
-%for character in characters:
-<table>
-    <tr>
-        <td><p align="center"><img src="${character.icon}" width="256"></p></td>
-        <td><p align="center"><img src="${character.weapon.icon}" width="256"></p></td>
-    </tr>
-    <tr>
-        <td>
-            <table>
-                <tr><td>Rarity</td><td>${character.rarity}</td></tr>
-                <tr><td>Element</td><td>${character.element}</td></tr>
-                <tr><td>Level</td><td>${character.level}</td></tr>
-                <tr><td>Friendship</td><td>${character.friendship}</td></tr>
-                <tr><td>Constellation</td><td>${character.constellation}</td></tr>\
-                <%
-                    from collections import Counter
-                    _artifacts = map(lambda x: f"{x[1]} x {x[0]}", Counter(map(lambda x: x.set.name, character.artifacts)).most_common())
-                %>
-                <tr><td>Artifacts</td><td>${"<br>".join(_artifacts)}</td></tr>
-                <tr><td>Outfits</td><td>${"<br>".join(map(lambda x: x.name, character.outfits))}</td></tr>
-            </table>
-        </td>
-        <td>
-            <table>
-                <tr><td>Name</td><td>${character.weapon.name}</td></tr>
-                <tr><td>Rarity</td><td>${character.weapon.rarity}</td></tr>
-                <tr><td>Level</td><td>${character.weapon.level}</td></tr>
-                <tr><td>Refinement</td><td>${character.weapon.refinement}</td></tr>
-            </table>
-        </td>
-    </tr>
-</table>
-%endfor
+        .uk-notification-message {
+            background: #222;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="uk-background-fixed uk-height-viewport uk-background-cover uk-background-norepeat"
+        style="background-image: url('https://source.unsplash.com/0y6Y56Pw6DA/1920x1080')">
+
+        <nav class="uk-navbar-container uk-light" uk-navbar>
+            <div class="uk-navbar-left">
+                <a href="https://github.com/HANDZCZ/genshin-stats" class="uk-navbar-item">Get your own</a>
+            </div>
+            <div class="uk-navbar-center">
+                <a href="https://github.com/HANDZCZ/genshin-stats" class="uk-navbar-item uk-logo">Genshin stats</a>
+            </div>
+            <div class="uk-navbar-right">
+                <a href="https://github.com/HANDZCZ/genshin-stats" class="uk-navbar-item">You like?</a>
+            </div>
+        </nav>
+
+        <div class="uk-container uk-container-large uk-margin-medium-top uk-padding-remove">
+            <article class="uk-article uk-section-secondary uk-padding">
+                <h1 class="uk-article-title uk-text-center">${record_card.nickname}</h1>
+            </article>
+
+            <article class="uk-article uk-padding uk-margin-remove-top">
+                <div class="uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s uk-flex-center" uk-grid="masonry: false">
+                    <div>
+                        <div class="uk-card uk-card-secondary">
+                            <div class="uk-card-body">
+                                <table class="uk-table uk-table-divider">
+                                    <tr><td>Adventure rank</td><td>${record_card.level}</td></tr>
+                                    <tr><td>Total rewards claimed</td><td>${daily_reward_info.claimed_rewards}</td></tr>
+                                    <tr><td>Last reward</td>
+                                        <td>
+                                            <img src="${last_claimed_reward.icon}">
+                                            <br>
+                                            ${last_claimed_reward.amount} x ${last_claimed_reward.name}
+                                        </td>
+                                    </tr>
+                                    <tr><td>Last checked</td><td>${check_time}</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-card uk-card-secondary">
+                            <div class="uk-card-body">
+                                <table class="uk-table uk-table-divider">
+                                    <tr><td>Achievements</td><td>${user.stats.achievements}</td></tr>
+                                    <tr><td>Active days</td><td>${user.stats.days_active}</td></tr>
+                                    <tr><td>Characters</td><td>${user.stats.characters}</td></tr>
+                                    <tr><td>Spiral abyss</td><td>${user.stats.spiral_abyss}</td></tr>
+                                    <tr><td>Anemoculi</td><td>${user.stats.anemoculi}</td></tr>
+                                    <tr><td>Geoculi</td><td>${user.stats.geoculi}</td></tr>
+                                    <tr><td>Electroculi</td><td>${user.stats.electroculi}</td></tr>
+                                    <tr><td>Common chests</td><td>${user.stats.common_chests}</td></tr>
+                                    <tr><td>Exquisite chests</td><td>${user.stats.exquisite_chests}</td></tr>
+                                    <tr><td>Precious chests</td><td>${user.stats.precious_chests}</td></tr>
+                                    <tr><td>Luxurious chests</td><td>${user.stats.luxurious_chests}</td></tr>
+                                    <tr><td>Unlocked waypoints</td><td>${user.stats.unlocked_waypoints}</td></tr>
+                                    <tr><td>Unlocked domains</td><td>${user.stats.unlocked_domains}</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="uk-article uk-section-secondary uk-padding">
+                <h1 class="uk-article-title uk-text-center">Spiral Abyss</h1>
+            </article>
+            <%def name="get_character_and_stat(arr, end='')">\
+                ${format_character(arr[0], end)}\
+            </%def>
+            <%def name="format_character(character, end='')">\
+                ${character.name} -> ${character.value}${end}\
+            </%def>
+            <article class="uk-article uk-padding uk-margin-remove-top">
+                <div class="uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center uk-flex-center" uk-grid="masonry: false">
+                    <div>
+                        <div class="uk-card uk-card-secondary">
+                            <div class="uk-card-body">
+                                <table class="uk-table uk-table-divider">
+                                    <tr><td>Total battles</td><td>${user.abyss.current.total_battles}</td></tr>
+                                    <tr><td>Total wins</td><td>${user.abyss.current.total_wins}</td></tr>
+                                    <tr><td>Max floor</td><td>${user.abyss.current.max_floor}</td></tr>
+                                    <tr><td>Total stars</td><td>${user.abyss.current.total_stars}</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    %if user.abyss.current.total_battles > 0:
+                        <div>
+                            <div class="uk-card uk-card-secondary">
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title">Strongest hit</h3>
+                                    <p>${get_character_and_stat(user.abyss.current.ranks.strongest_strike, " DMG")}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-card uk-card-secondary">
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title">Most kills</h3>
+                                    <p>${get_character_and_stat(user.abyss.current.ranks.most_kills)}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-card uk-card-secondary">
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title">Most damage taken</h3>
+                                    <p>${get_character_and_stat(user.abyss.current.ranks.most_damage_taken, " DMG")}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-card uk-card-secondary">
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title">Most skills used</h3>
+                                    <p>${get_character_and_stat(user.abyss.current.ranks.most_skills_used)}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-card uk-card-secondary">
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title">Most bursts used</h3>
+                                    <p>${get_character_and_stat(user.abyss.current.ranks.most_bursts_used)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    %endif
+                </div>
+            </article>
+
+            <article class="uk-article uk-section-secondary uk-padding">
+                <h1 class="uk-article-title uk-text-center">Exploration</h1>
+            </article>
+
+            <article class="uk-article uk-padding uk-margin-remove-top">
+                <div class="uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center uk-flex-center" uk-grid="masonry: false">
+                    %for location in user.explorations:
+                        <div>
+                            <div class="uk-card uk-card-secondary">
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title">${location.name}</h3>
+                                    <img src="${location.icon}">
+                                    <table class="uk-table uk-table-divider">
+                                        <tr><td>Explored</td><td>${location.explored}%</td></tr>
+                                        <tr><td>${location.type} level</td><td>${location.level}</td></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    %endfor
+                </div>
+            </article>
+
+            <article class="uk-article uk-section-secondary uk-padding">
+                <h1 class="uk-article-title uk-text-center">Characters</h1>
+            </article>
+
+            <article class="uk-article uk-padding uk-margin-remove-top">
+                <div class="uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s uk-flex-center" uk-grid="masonry: false">
+                    %for character in characters:
+                        <div>
+                            <div class="uk-card uk-card-secondary">
+                                <div class="uk-card-body">
+                                    <div class="uk-grid-collapse uk-child-width-1-2@s" uk-grid>
+                                        <div class="uk-flex-first\@s">
+                                            <h3 class="uk-card-title uk-text-center">${character.name}</h3>
+                                            <img class="uk-align-center" src="${character.icon}">
+                                            <table class="uk-table uk-table-divider">
+                                                <tr><td>Rarity</td><td>${character.rarity}</td></tr>
+                                                <tr><td>Element</td><td>${character.element}</td></tr>
+                                                <tr><td>Level</td><td>${character.level}</td></tr>
+                                                <tr><td>Friendship</td><td>${character.friendship}</td></tr>
+                                                <tr><td>Constellation</td><td>${character.constellation}</td></tr>
+                                                <%
+                                                    from collections import Counter
+                                                    _artifacts = map(lambda x: f"{x[1]} x {x[0]}", Counter(map(lambda x: x.set.name, character.artifacts)).most_common())
+                                                %>
+                                                <tr><td>Artifacts</td><td>${"<hr class=\"uk-margin-remove\">".join(_artifacts)}</td></tr>
+                                                <tr><td>Outfits</td><td>${"<hr class=\"uk-margin-remove\">".join(map(lambda x: x.name, character.outfits))}</td></tr>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <h3 class="uk-card-title uk-text-center">${character.weapon.name}</h3>
+                                            <img class="uk-align-center" src="${character.weapon.icon}">
+                                            <table class="uk-table uk-table-divider">
+                                                <tr><td>Rarity</td><td>${character.weapon.rarity}</td></tr>
+                                                <tr><td>Level</td><td>${character.weapon.level}</td></tr>
+                                                <tr><td>Refinement</td><td>${character.weapon.refinement}</td></tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    %endfor
+                </div>
+            </article>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.14.3/js/uikit.min.js"
+        integrity="sha512-wqamZDJQvRHCyy5j5dfHbqq0rUn31pS2fJeNL4vVjl0gnSVIZoHFqhwcoYWoJkVSdh5yORJt+T9lTdd8j9W4Iw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.14.3/js/uikit-icons.min.js"
+        integrity="sha512-EPxIFpzTUuEV2uy6q5GHCUlsLWHIzASsy7RQ480ZlVFtjyYhWVACTL0ozarU8GrIRhrQkd/DTHzSSrRQzxPooA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>
