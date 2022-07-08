@@ -1,0 +1,4 @@
+genshin
+beautifulsoup4
+requests
+Mako
