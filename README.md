@@ -9,6 +9,8 @@ Automatically claims:
 
 # Setup
 
+You will need to have or create heroku account and some website hosting that supports php scripts.
+
 ## GitHub
 
 1. Fork this repo
