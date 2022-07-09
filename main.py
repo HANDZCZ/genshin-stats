@@ -9,7 +9,6 @@ import requests
 import time
 from bs4 import BeautifulSoup
 from mako.template import Template
-from mako.lookup import TemplateLookup
 
 # AAAAAAAAAAA
 from genshin.models.genshin.chronicle.stats import FullGenshinUserStats
@@ -92,7 +91,7 @@ async def main():
     check_time = datetime.datetime.utcnow().strftime("%d.%m.%Y %H:%M:%S UTC")
 
     # Render template
-    page = Template(filename="./template.mako").render(
+    page = Template(filename="./template.mako", module_directory="./mako_modules").render(
         record_card=record_card,
         user=user,
         diary=diary,
