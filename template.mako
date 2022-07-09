@@ -51,6 +51,20 @@
         .uk-notification-message {
             background: #222;
         }
+        .uk-icon[uk-icon="icon: star; ratio: 2"] polygon {
+            fill: gold;
+            stroke: none !important;
+        }
+        .keep-visible-hover:not(:hover) {
+            display: none;
+        }
+        .uk-visible {
+            display: block !important;
+        }
+        .outfit {
+            position: absolute;
+            top: 0;
+        }
     </style>
     <title>Document</title>
 </head>
@@ -71,9 +85,9 @@
             </div>
         </nav>
 
-        <div class="uk-container uk-container-large uk-margin-medium-top uk-padding-remove">
+        <div class="uk-container uk-container-xlarge uk-margin-medium-top uk-padding-remove">
             <article class="uk-article uk-section-secondary uk-padding">
-                <h1 class="uk-article-title uk-text-center">${record_card.nickname}</h1>
+                <h1 class="uk-article-title uk-text-center">${user.info.nickname}</h1>
             </article>
 
             <article class="uk-article uk-padding uk-margin-remove-top">
@@ -82,7 +96,7 @@
                         <div class="uk-card uk-card-secondary">
                             <div class="uk-card-body">
                                 <table class="uk-table uk-table-divider">
-                                    <tr><td>Adventure rank</td><td>${record_card.level}</td></tr>
+                                    <tr><td>Adventure rank</td><td>${user.info.level}</td></tr>
                                     <tr><td>Total rewards claimed</td><td>${daily_reward_info.claimed_rewards}</td></tr>
                                     <tr><td>Last reward</td>
                                         <td>
@@ -215,40 +229,101 @@
                 <h1 class="uk-article-title uk-text-center">Characters</h1>
             </article>
 
+<%def name="get_element_icon_url(element)">\
+%if element == "Pyro":
+https://act.hoyolab.com/app/community-game-records-sea/images/UI_Buff_Element_Fire.864dadd8.png\
+%elif element == "Hydro":
+https://act.hoyolab.com/app/community-game-records-sea/images/UI_Buff_Element_Water.d492097a.png\
+%elif element == "Electro":
+https://act.hoyolab.com/app/community-game-records-sea/images/UI_Buff_Element_Elect.cc253e18.png\
+%elif element == "Anemo":
+https://act.hoyolab.com/app/community-game-records-sea/images/UI_Buff_Element_Wind.214c97ef.png\
+%elif element == "Cryo":
+https://act.hoyolab.com/app/community-game-records-sea/images/UI_Buff_Element_Frost.f5bc0120.png\
+%elif element == "Geo":
+https://act.hoyolab.com/app/community-game-records-sea/images/UI_Buff_Element_Roach.17496428.png\
+%endif
+</%def>
+
             <article class="uk-article uk-padding uk-margin-remove-top">
                 <div class="uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s uk-flex-center" uk-grid="masonry: false">
                     %for character in characters:
                         <div>
                             <div class="uk-card uk-card-secondary">
                                 <div class="uk-card-body">
-                                    <div class="uk-grid-collapse uk-child-width-1-2@s" uk-grid>
-                                        <div class="uk-flex-first\@s">
-                                            <h3 class="uk-card-title uk-text-center">${character.name}</h3>
-                                            <img class="uk-align-center" src="${character.icon}">
-                                            <table class="uk-table uk-table-divider">
-                                                <tr><td>Rarity</td><td>${character.rarity}</td></tr>
-                                                <tr><td>Element</td><td>${character.element}</td></tr>
-                                                <tr><td>Level</td><td>${character.level}</td></tr>
-                                                <tr><td>Friendship</td><td>${character.friendship}</td></tr>
-                                                <tr><td>Constellation</td><td>${character.constellation}</td></tr>
-                                                <%
-                                                    from collections import Counter
-                                                    _artifacts = map(lambda x: f"{x[1]} x {x[0]}", Counter(map(lambda x: x.set.name, character.artifacts)).most_common())
-                                                %>
-                                                <tr><td>Artifacts</td><td>${"<hr class=\"uk-margin-remove\">".join(_artifacts)}</td></tr>
-                                                <tr><td>Outfits</td><td>${"<hr class=\"uk-margin-remove\">".join(map(lambda x: x.name, character.outfits))}</td></tr>
-                                            </table>
+
+
+                                        <div class="uk-grid-collapse uk-flex-first@s uk-child-width-1-2@s" uk-grid>
+                                            <div class="uk-flex-first@s">
+                                                <h3 class="uk-card-title uk-text-center uk-hidden@m"><img src="${get_element_icon_url(character.element)}"> ${character.name}</h3>
+                                                <div class="uk-visible@m">
+                                                    <img class="uk-align-center" src="${character.image}">
+                                                </div>
+                                                <div class="uk-hidden@m">
+                                                    <img class="uk-align-center" src="${character.icon}">
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h3 class="uk-card-title uk-text-center uk-visible@m"><img src="${get_element_icon_url(character.element)}"> ${character.name}</h3>
+                                                <table class="uk-table uk-table-divider">
+                                                    <tr><td colspan="2" class="uk-text-center">
+                                                        %for _ in range(character.rarity):
+                                                            <span class="uk-margin-small-right" uk-icon="icon: star; ratio: 2"></span>
+                                                        %endfor
+                                                    </td></tr>
+                                                    <tr><td>Level</td><td>${character.level}</td></tr>
+                                                    <tr><td>Friendship</td><td>${character.friendship}</td></tr>
+                                                    <tr><td>Constellation</td><td>${character.constellation}</td></tr>
+                                                    <%
+                                                        from collections import Counter
+                                                        _artifacts = list(map(lambda x: f"{x[1]} x {x[0]}", Counter(map(lambda x: x.set.name, character.artifacts)).most_common()))
+                                                    %>
+                                                    %if len(_artifacts) > 0:
+                                                        <tr><td colspan="2">${"<hr class=\"uk-margin-remove\">".join(_artifacts)}</td></tr>
+                                                    %endif
+                                                    %if len(character.outfits) > 0:
+                                                        <tr><td colspan="2" class="uk-text-center">
+                                                            <h4>Outfits</h4>
+                                                            <%def name="format_outfit(outfit)">\
+                                                                <p uk-toggle="target: [id='${outfit.id}']; cls: uk-visible; mode: hover">${outfit.name}</p>
+                                                            </%def>
+                                                            %for outfit in character.outfits[:-1]:
+                                                                ${format_outfit(outfits[-1])}
+                                                                <hr class="uk-margin-remove">
+                                                            %endfor
+                                                            ${format_outfit(character.outfits[-1])}
+                                                        </td></tr>
+                                                    %endif
+                                                </table>
+                                                %for outfit in character.outfits:
+                                                    <div class="keep-visible-hover uk-position-z-index outfit" id="${outfit.id}">
+                                                        <img src="${outfit.icon}">
+                                                    </div>
+                                                %endfor
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h3 class="uk-card-title uk-text-center">${character.weapon.name}</h3>
-                                            <img class="uk-align-center" src="${character.weapon.icon}">
-                                            <table class="uk-table uk-table-divider">
-                                                <tr><td>Rarity</td><td>${character.weapon.rarity}</td></tr>
-                                                <tr><td>Level</td><td>${character.weapon.level}</td></tr>
-                                                <tr><td>Refinement</td><td>${character.weapon.refinement}</td></tr>
-                                            </table>
+
+                                        <div class="uk-grid-collapse uk-child-width-1-2@s" uk-grid>
+                                            <div class="uk-flex-first@s">
+                                                <h3 class="uk-card-title uk-text-center uk-hidden@m">${character.weapon.name}</h3>
+                                                <img class="uk-align-center" src="${character.weapon.icon}">
+                                            </div>
+
+                                            <div>
+                                                <h3 class="uk-card-title uk-text-center uk-visible@m">${character.weapon.name}</h3>
+                                                <table class="uk-table uk-table-divider">
+                                                    <tr><td colspan="2" class="uk-text-center">
+                                                        %for _ in range(character.weapon.rarity):
+                                                            <span class="uk-margin-small-right" uk-icon="icon: star; ratio: 2"></span>
+                                                        %endfor
+                                                    </td></tr>
+                                                    <tr><td>Level</td><td>${character.weapon.level}</td></tr>
+                                                    <tr><td>Refinement</td><td>${character.weapon.refinement}</td></tr>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

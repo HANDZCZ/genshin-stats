@@ -31,8 +31,6 @@ async def main():
 
     # await client.check_in_community()
     user: FullGenshinUserStats = await client.get_full_genshin_user(game_uid)
-    record_card = await client.get_record_cards()
-    record_card = record_card[0]
     diary = await client.get_diary()
 
     # Daily reward
@@ -92,7 +90,6 @@ async def main():
 
     # Render template
     page = Template(filename="./template.mako", module_directory="./mako_modules").render(
-        record_card=record_card,
         user=user,
         diary=diary,
         daily_reward_info=daily_reward_info,
