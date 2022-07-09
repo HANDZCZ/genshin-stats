@@ -43,10 +43,6 @@ Use some free hosting or your own.
    ![image](https://user-images.githubusercontent.com/35496843/177958036-5a40ac57-d645-45b7-8ab2-aa686b0fe527.png)
 1. Enable automatic deploys on main branch
    ![image](https://user-images.githubusercontent.com/35496843/177958451-9be0610b-af35-405b-8bcf-04699d781605.png)
-1. Run manual deploy
-   ![image](https://user-images.githubusercontent.com/35496843/177958719-bb6d437e-23d4-4c31-a814-c2ef3000e4ca.png)
-   Wait for it to finish
-   ![image](https://user-images.githubusercontent.com/35496843/177959041-54fdca93-8e4d-42bf-9bf6-3d9379d231c5.png)
 1. Configure dyno and addons
    1. Uncheck the switch if its on.\
       ![image](https://user-images.githubusercontent.com/35496843/177959514-1372396d-c25e-46a7-927a-9b24cb65135e.png)
@@ -76,4 +72,16 @@ Use some free hosting or your own.
       1. Paste it into value on heroku.
    1. Set key to ``WEB_KEY`` and value to the uploaded key on website
    1. Set key to ``WEB_URL`` and value to your web url
+1. Add a buildpack\
+      ![image](https://user-images.githubusercontent.com/35496843/178105612-9c18a2a1-b4af-4828-a677-e72aa882fc02.png)
+   1. Click ``Add buildpack``
+   1. Paste ``https://github.com/HANDZCZ/heroku-buildpack-run.git`` into ``Enter Buildpack URL``
+      ![image](https://user-images.githubusercontent.com/35496843/178105733-0132fb31-5675-425d-939f-81bbfa2fcdb3.png)
+   1. Click ``Save chages``
+   1. Make sure that ``heroku/python`` is first
+      ![image](https://user-images.githubusercontent.com/35496843/178105838-150a4a80-102e-4038-a1d0-156be061c8bd.png)
 
+1. In ``Deploy`` tab run manual deploy
+   ![image](https://user-images.githubusercontent.com/35496843/177958719-bb6d437e-23d4-4c31-a814-c2ef3000e4ca.png)
+   Wait for it to finish
+   ![image](https://user-images.githubusercontent.com/35496843/177959041-54fdca93-8e4d-42bf-9bf6-3d9379d231c5.png)
