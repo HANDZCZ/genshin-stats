@@ -23,8 +23,10 @@ You will need to have or create heroku account and some website hosting that sup
 
 Use some free hosting or your own.
 
+1. Edit ``index.php``
+   1. Change ``$KEY=""`` to ``$KEY="SOME_GENERATED_KEY"`` (eg. ``$KEY="f54as65f156a1f6as156dc156asc61asd56a64f65as46f4as6d"``)
 1. Upload file ``index.php``
-1. Upload file named ``key`` that has some generated key (``f54as65f156a1f6as156dc156asc61asd56a64f65as46f4as6d``)
+1. Load the page and make sure it's not showing any errors, you should see a blank page
 
 ## Heroku
 
@@ -70,7 +72,7 @@ Use some free hosting or your own.
       1. run ``copy(document.cookie)``\
          ![image](https://user-images.githubusercontent.com/35496843/177964372-27a455e8-d7e5-4fb7-bd40-c91b657dc538.png)
       1. Paste it into value on heroku.
-   1. Set key to ``WEB_KEY`` and value to the uploaded key on website
+   1. Set key to ``WEB_KEY`` and value to the generated key you created when you were editing ``index.php``
    1. Set key to ``WEB_URL`` and value to your web url
 1. Add a buildpack\
       ![image](https://user-images.githubusercontent.com/35496843/178105612-9c18a2a1-b4af-4828-a677-e72aa882fc02.png)

@@ -1,5 +1,13 @@
 <?php
-if (isset($_FILES["file"]) && isset($_POST["key"]) && $_POST["key"] == file_get_contents("key")) {
+
+
+$KEY = "";
+
+
+// Don't edit anything after this comment
+
+
+if (isset($_FILES["file"]) && isset($_POST["key"]) && $_POST["key"] == $KEY) {
     $filepath = $_FILES['file']['tmp_name'];
     $fileSize = filesize($filepath);
     $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
