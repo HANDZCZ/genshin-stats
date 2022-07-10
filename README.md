@@ -5,7 +5,7 @@ Automatically claims:
 - daily reward
 - active primo codes (from <https://www.pockettactics.com/genshin-impact/codes>)
 
-[My stats](http://handz-genshin-stats.euweb.cz/)
+[My stats](https://genshin.handz.us.to/)
 
 # Setup
 
