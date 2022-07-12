@@ -31,11 +31,6 @@ Use some free hosting or your own.
 ## Heroku
 
 1. Create account if you don't have one
-1. You will probably need to add payment method.\
-   Don't worry you won't be charged anything.\
-   After that you will have 1000 free dyno hours per month.\
-   I am running app that runs for about 30 seconds every hour and it uses at max 6 hours a month.\
-   So you will be fine.
 1. On [dashboard](https://dashboard.heroku.com/apps) click New-> Create new app
    ![image](https://user-images.githubusercontent.com/35496843/177956811-e6e5d30c-063c-47a4-b260-21bcd8213391.png)
 1. Name it whatever, choose a region and click ``Create app``
@@ -53,6 +48,16 @@ Use some free hosting or your own.
    1. In addons search for ``heroku scheduler`` and click on it
       ![image](https://user-images.githubusercontent.com/35496843/177960454-83f896ec-96c5-4e3d-84e2-bd8399b88f07.png)
    1. Click ``Submit Order Form``\
+      If you don't have verified account this won't work!
+
+      For verification you will need to add a payment method.\
+      Don't worry you won't be charged anything.\
+      After that you will have 1000 free dyno hours per month.\
+      I am running app that runs for about 30 seconds every hour and it uses at max 6 hours a month.\
+      So you will be fine.
+
+      If you can't verify your account skip to ``Configure environment variables``, but if you can verify it definitely do that. It's a much better approach.
+
       ![image](https://user-images.githubusercontent.com/35496843/177961065-fd1cc737-68aa-4be9-88be-0af61ad89d5b.png)
 1. Configure ``Heroku Scheduler``
    1. Click on ``Heroku Scheduler`` (in Resources tab)
@@ -87,3 +92,37 @@ Use some free hosting or your own.
    ![image](https://user-images.githubusercontent.com/35496843/177958719-bb6d437e-23d4-4c31-a814-c2ef3000e4ca.png)
    Wait for it to finish
    ![image](https://user-images.githubusercontent.com/35496843/177959041-54fdca93-8e4d-42bf-9bf6-3d9379d231c5.png)
+
+## For those who can't verify their account
+
+### GitHub
+
+1. Edit ``Procfile``\
+   Uncomment ``web: ...`` and comment out ``bot: ...``
+   Should look something like this after you do this step\
+   ```Procfile
+   #bot: python3 main.py
+   web: python3 main_web.py
+   ```
+
+### Heroku
+
+1. Switch on web dyno
+   1. Go to ``Resources`` tab
+   1. Under ``Free dynos`` you should see ``web python3 ...``
+   1. On the right click pen icon
+   1. Switch it on
+   1. Click save
+
+1. Get your heroku url by clicking ``Open app`` in the top right corner.
+
+### Cron service
+
+You can use something like ``cron-job.org/en/``
+
+1. Set the url to your heroku app
+1. Run it every day at ``16:30 UTC`` make sure it runs at ``16:30 UTC`` otherwise the app will not update you stats.\
+   It only accepts requests for updating your stats between ``16:10 UTC`` and ``16:40 UTC``\
+   For example ``cron-job.org/en/`` shows and sets the scheduled time in you timezone.\
+   If you end up using it, then set the scheduled time to ``16:30`` plus your UTC offset.\
+   You can find your offset by searching ``London utc time offset``
