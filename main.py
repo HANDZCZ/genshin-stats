@@ -103,4 +103,5 @@ async def main():
     data = {'key': os.environ.get("WEB_KEY")}
     requests.post(os.environ.get("WEB_URL"), files=files, data=data)
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
