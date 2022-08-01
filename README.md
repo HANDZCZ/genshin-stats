@@ -26,7 +26,7 @@ Use some free hosting or your own.
 1. Edit ``index.php``
    1. Change ``$KEY=""`` to ``$KEY="SOME_GENERATED_KEY"`` (eg. ``$KEY="f54as65f156a1f6as156dc156asc61asd56a64f65as46f4as6d"``)
 1. Upload file ``index.php``
-1. Load the page and make sure it's not showing any errors, you should see a blank page
+1. Load the page and make sure it's not showing any errors, you should see a blank page or a warning that page.html is missing
 
 ## Heroku
 
