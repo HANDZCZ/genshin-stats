@@ -29,10 +29,6 @@ async def main():
     except:
         pass
 
-    # await client.check_in_community()
-    user: FullGenshinUserStats = await client.get_full_genshin_user(game_uid)
-    diary = await client.get_diary()
-
     # Daily reward
     print("[Daily Reward] ", end="")
     try:
@@ -48,11 +44,6 @@ async def main():
         print(
             f"Claimed: {last_claimed_reward.amount} x {last_claimed_reward.name}"
         )
-
-    # Characters
-    characters = list(user.characters)
-    characters.sort(key=lambda x: (int(x.rarity), int(x.level), int(
-        x.constellation), int(x.friendship)), reverse=True)
 
     # Code redeem
     # Get active codes
@@ -84,6 +75,15 @@ async def main():
               " new codes: " + ", ".join(redeemed_codes))
     else:
         print("No new codes found")
+
+    # await client.check_in_community()
+    user: FullGenshinUserStats = await client.get_full_genshin_user(game_uid)
+    diary = await client.get_diary()
+
+    # Characters
+    characters = list(user.characters)
+    characters.sort(key=lambda x: (int(x.rarity), int(x.level), int(
+        x.constellation), int(x.friendship)), reverse=True)
 
     # Check time
     check_time = datetime.datetime.utcnow().strftime("%d.%m.%Y %H:%M:%S UTC")
