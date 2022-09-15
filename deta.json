@@ -1,0 +1,33 @@
+{
+    "name": "Genshin stats",
+    "description": "Displays your genshin stats",
+    "runtime": "micro's runtime",
+    "env": [
+        {
+            "key": "GAME_UID",
+            "description": "UID in game (copy from profile page while in game)",
+            "required": true
+        },
+        {
+            "key": "COOKIE",
+            "description": "1) Go to https://www.hoyolab.com/   2) Login to your account.   3) Press F12 to open Inspect Mode (ie. Developer Tools).    4) Go to Console    5) run copy(document.cookie)    6) Paste it here",
+            "required": true
+        },
+        {
+            "key": "WEB_KEY",
+            "description": "Some generated key for auth",
+            "required": false
+        },
+        {
+            "key": "WEB_URL",
+            "description": "URL where to post rendered page",
+            "required": false
+        },
+        {
+            "key": "AUTHKEY",
+            "description": "Authkey (not used for anything right now)",
+            "required": false
+        }
+    ],
+    "cron": "30-40 16 * * ? *"
+}

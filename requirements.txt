@@ -2,3 +2,5 @@ genshin
 beautifulsoup4
 requests
 Mako
+deta
+fastapi
