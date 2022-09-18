@@ -30,6 +30,7 @@ def cron(event):
 
 async def update_stats():
     if db.get("DONE") != None:
+        db.update({}, "DONE", expire_in=120)
         return
 
     COOKIE, GAME_UID, AUTHKEY, WEB_KEY, WEB_URL = setup_env(db)
