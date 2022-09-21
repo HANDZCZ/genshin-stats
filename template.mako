@@ -51,27 +51,46 @@
         .uk-notification-message {
             background: #222;
         }
+
         .uk-icon[uk-icon="icon: star; ratio: 2"] polygon {
             fill: gold;
             stroke: none !important;
         }
+
         .keep-visible-hover:not(:hover) {
             display: none;
         }
+
         .uk-visible {
             display: block !important;
         }
+
         .outfit {
             position: absolute;
             top: 0;
+        }
+
+        @media (pointer: coarse) {
+            .uk-background-fixed {
+                background-attachment: fixed;
+            }
+        }
+
+        .body-background {
+            background-image: url('https://source.unsplash.com/0y6Y56Pw6DA/1920x1080')
+        }
+
+        @media (max-width: 1199px) {
+            .body-background {
+                background: black;
+            }
         }
     </style>
     <title>Document</title>
 </head>
 
 <body>
-    <div class="uk-background-fixed uk-height-viewport uk-background-cover uk-background-norepeat"
-        style="background-image: url('https://source.unsplash.com/0y6Y56Pw6DA/1920x1080')">
+    <div class="uk-background-fixed uk-height-viewport uk-background-cover uk-background-norepeat body-background">
 
         <nav class="uk-navbar-container uk-light" uk-navbar>
             <div class="uk-navbar-left">
