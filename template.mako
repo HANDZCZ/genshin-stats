@@ -86,7 +86,7 @@
             }
         }
     </style>
-    <title>Document</title>
+    <title>${user.info.nickname}'s genshin stats</title>
 </head>
 
 <body>
