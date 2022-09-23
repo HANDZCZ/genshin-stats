@@ -140,6 +140,7 @@
                                     <tr><td>Anemoculi</td><td>${user.stats.anemoculi}</td></tr>
                                     <tr><td>Geoculi</td><td>${user.stats.geoculi}</td></tr>
                                     <tr><td>Electroculi</td><td>${user.stats.electroculi}</td></tr>
+                                    <tr><td>Dendroculi</td><td>${user.stats.dendroculi}</td></tr>
                                     <tr><td>Common chests</td><td>${user.stats.common_chests}</td></tr>
                                     <tr><td>Exquisite chests</td><td>${user.stats.exquisite_chests}</td></tr>
                                     <tr><td>Precious chests</td><td>${user.stats.precious_chests}</td></tr>
